@@ -11,6 +11,7 @@
         </option>
       </LaravelCodeGeneration>
     </option>
+    <option name="defaultLanguage" value="pt-br" />
     <option name="frameworkFound" value="true" />
     <option name="translation">
       <LaravelTranslation>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/',[TasksController::class,'index']);
+Route::post('/store',[TasksController::class,'store']);
 
-Route::get('/', function () {
-    return view('welcome');
-});
+# Route::post('/',TasksController::class);
