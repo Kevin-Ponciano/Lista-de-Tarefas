@@ -21,6 +21,7 @@
         margin: auto;
         width: 50%;
     }
+
     .no-input {
         border-top-style: hidden;
         border-right-style: hidden;
@@ -54,20 +55,22 @@
             <tr>
                 <th scope="row">1</th>
                 <form id="task_form" action="">
-                {!! csrf_field() !!}
+                    {!! csrf_field() !!}
 
-                <td>
-                    <input id="name_task" name="name" type="text" class="no-outline no-input" value="Kevin" readonly>
-                </td>
-                <td>
-                    <input id="cost_task" name="cost" type="number" class="no-outline no-input" value="0" readonly>
-                </td>
-                <td>
-                    <input id="deadline_task" name="deadline" type="date" class="no-outline no-input" value="2022-01-01" readonly>
-                </td>
+                    <td>
+                        <input id="name_task" name="name" type="text" class="no-outline no-input" value="Kevin"
+                               readonly>
+                    </td>
+                    <td>
+                        <input id="cost_task" name="cost" type="number" class="no-outline no-input" value="0" readonly>
+                    </td>
+                    <td>
+                        <input id="deadline_task" name="deadline" type="date" class="no-outline no-input"
+                               value="2022-01-01" readonly>
+                    </td>
                 </form>
                 <td>
-                    <button id="btnChange" type="button" class="btn btn-light py-0 px-0" onclick="ok()">
+                    <button id="btnChange" type="button" class="edit btn btn-light py-0 px-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="feather feather-edit">
@@ -75,7 +78,7 @@
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                         </svg>
                     </button>
-                    <button id="btnRemove" class="btn btn-light py-0 px-0 rounded">
+                    <button id="btnRemove" class="remove btn btn-light py-0 px-0 rounded">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="feather feather-x-circle">
@@ -86,23 +89,42 @@
                     </button>
                 </td>
             </tr>
-{{--            <tr>--}}
-{{--                <th scope="row"></th>--}}
-{{--                <td></td>--}}
-{{--                <td></td>--}}
-{{--                <td></td>--}}
-{{--                <td>--}}
-{{--                    <button class="btn btn-light py-0 px-0 rounded">--}}
-{{--                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
-{{--                             stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"--}}
-{{--                             class="feather feather-plus-circle">--}}
-{{--                            <circle cx="12" cy="12" r="10"></circle>--}}
-{{--                            <line x1="12" y1="8" x2="12" y2="16"></line>--}}
-{{--                            <line x1="8" y1="12" x2="16" y2="12"></line>--}}
-{{--                        </svg>--}}
-{{--                    </button>--}}
-{{--                </td>--}}
-{{--            </tr>--}}
+            <tr>
+                <th scope="row">2</th>
+                <form id="task_form" action="">
+                    {!! csrf_field() !!}
+
+                    <td>
+                        <input id="name_task" name="name" type="text" class="no-outline no-input" value="test" readonly>
+                    </td>
+                    <td>
+                        <input id="cost_task" name="cost" type="number" class="no-outline no-input" value="1" readonly>
+                    </td>
+                    <td>
+                        <input id="deadline_task" name="deadline" type="date" class="no-outline no-input"
+                               value="2022-01-01" readonly>
+                    </td>
+                </form>
+                <td>
+                    <button id="btnChange" type="button" class="edit btn btn-light py-0 px-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-edit">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
+                    <button id="btnRemove" class="remove btn btn-light py-0 px-0 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-x-circle">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                    </button>
+                </td>
+            </tr>
 
             </tbody>
         </table>
@@ -128,8 +150,10 @@
 <!--Bootstrap JS-->
 <scrpt src="{{asset('js/bootstrap/bootstrap.bundle.js')}}"></scrpt>
 <!--JS-->
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+        crossorigin="anonymous"></script>
 <script type="text/javascript">
-    let rootUrl = {!! json_encode(url('/')) !!}
+    const rootUrl = {!! json_encode(url('/')) !!}
 </script>
 <script src="{{asset('js/script.js')}}"></script>
 </body>

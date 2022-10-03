@@ -1,46 +1,47 @@
-ok = () => {
-    const name_task = document.getElementById('name_task')
-    const cost_task = document.getElementById('cost_task')
-    const deadline_task = document.getElementById('deadline_task')
-    const end = name_task.value.length
+$('.edit').on('click', function () {
+    const input_row = $(this).parent().parent().children('td').children('input')
+    const end = input_row[0].value.length
+    input_row.each(function () {
+        $(this).removeAttr('readonly')
+        $(this).addClass('form-control')
+        $(this).removeClass('no-input')
+    })
 
-    cost_task.removeAttribute('readonly')
-    name_task.removeAttribute('readonly')
-    deadline_task.removeAttribute('readonly')
-
-    name_task.classList.add('form-control')
-    name_task.classList.remove('no-input')
-
-    cost_task.classList.add('form-control')
-    cost_task.classList.remove('no-input')
-
-    deadline_task.classList.add('form-control')
-    deadline_task.classList.remove('no-input')
+    input_row[0].setSelectionRange(end, end)
+    input_row[0].focus()
 
 
+    $(this).next().on('click', () => {
+        sendData('/store')
+    })
 
-    name_task.setSelectionRange(end, end);
-    name_task.focus();
-    console.log('ok')
-}
+    const form = $(this).parent().parent().children('form')
 
-const form = document.querySelector('#task_form')
+    console.log(form[0].name.value)
 
-document.getElementById('btnRemove').addEventListener('click', () => {
-    sendData('/store')
+
+    sendData = (url) => {
+        const formData = new FormData(form[0])
+
+        // Axios envia informações via url
+        axios.post(rootUrl + url, formData).then(// Se der certo, o modal será fechado e a informação enviada
+            (res) => {
+                console.log('POST ENVIADO')
+            }).catch(// Caso um erro for encontrado será imprimido no console
+            error => {
+                if (error.response) {
+                    console.log(error.response.data)
+                }
+            })
+    }
+
 })
 
-sendData = (url) => {
-    const formData = new FormData(form)
 
-    // Axios envia informações via url
-    axios.post(rootUrl + url, formData).then(// Se der certo, o modal será fechado e a informação enviada
-        (res) => {
-            console.log('Post Enviado')
-        }).catch(// Caso um erro for encontrado será imprimido no console
-        error => {
-            if (error.response) {
-                console.log(error.response.data)
-            }
-        })
-}
+
+// document.getElementById('btnRemove').addEventListener('click', () => {
+//     sendData('/store')
+// })
+
+
+
