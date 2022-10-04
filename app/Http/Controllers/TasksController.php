@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
-use function Psy\debug;
 
 class TasksController extends Controller
 {
@@ -19,9 +18,16 @@ class TasksController extends Controller
 
     public function store(Request $request)
     {
+
         $request = $request->all();
+        debug($request);
         $task = Task::create($request);
+
+        $task = Task::all();
+//        return response()->json($task);
+        return route('index',['task' => $task]);
     }
+
 
     public function show(Task $task)
     {
@@ -29,7 +35,6 @@ class TasksController extends Controller
 
     public function edit(Task $task)
     {
-        dd('test');
     }
 
     public function update(Request $request, Task $task)

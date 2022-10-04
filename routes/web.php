@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',[TasksController::class,'index']);
-Route::post('/store',[TasksController::class,'store']);
+Route::get('/',[TasksController::class,'index'])->name('index');
+Route::post('/store',[TasksController::class,'store'])->name('store');
+Route::post('/edit',[TasksController::class,'edit']);
 
 # Route::post('/',TasksController::class);

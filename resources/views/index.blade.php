@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap/bootstrap.css')}}">
     <!--Bootstrap Icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
-
+    {{--  Permite realizar o post dos dados utilizando AJAX   --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <style>
     body {
@@ -19,7 +20,7 @@
 
     .center {
         margin: auto;
-        width: 50%;
+        /*width: 50%;*/
     }
 
     .no-input {
@@ -34,10 +35,25 @@
     .no-outline:focus {
         outline: none;
     }
+
+    .edit[data-title]:hover::after {
+        content: attr(data-title);
+        position: absolute;
+        top: -100%;
+        right: 100%;
+        background-color: #0051ff;
+        border-radius: 5px;
+        color: #ffffff;
+        width: 50px;
+    }
 </style>
 <body>
+<div class="col-md-7 offset-3 mt-4">
+    @include('flash-message')
+    @yield('content')
+</div>
 <div class="d-flex align-items-center justify-content-center p-5">
-    <h2>LISTA DE TAREFAS</h2>
+    <h2 id="l">LISTA DE TAREFAS</h2>
 </div>
 <div class="center">
     <div class="table-responsive border border-2 border-light rounded-3 shadow-lg">
@@ -70,7 +86,7 @@
                     </td>
                 </form>
                 <td>
-                    <button id="btnChange" type="button" class="edit btn btn-light py-0 px-0">
+                    <button id="btnChange" class="edit btn btn-light py-0 px-0 position-relative" data-title="Editar">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="blue" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="feather feather-edit">
@@ -78,7 +94,16 @@
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                         </svg>
                     </button>
-                    <button id="btnRemove" class="remove btn btn-light py-0 px-0 rounded">
+                    <button class="save btn btn-light py-0 px-0" hidden>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none"
+                             stroke="green" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-save">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                    </button>
+                    <button id="btnRemove" class="remove btn btn-light py-0 px-0">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              class="feather feather-x-circle">
