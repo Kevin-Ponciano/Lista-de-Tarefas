@@ -39,8 +39,7 @@ $('.new').on('click', function () {
             tbody.insertBefore(new_input_field, tr)
 
             $('#new_input_field').html(
-                "<form id='new_task_form' action='/store' method='get'>"
-
+                "<form id='new_task_form' action='/store' method='post'>"
                 + "<th scope='row'></th>"
                 + "<td><input name='name' type='text' class='no-outline form-control'></td>"
                 + "<td><input name='cost' type='number' class='no-outline form-control'></td>"
