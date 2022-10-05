@@ -1,0 +1,56 @@
+body {
+    background-color: #f3f4f6;
+}
+
+.center {
+    margin: auto;
+    width: 75%;
+}
+
+.no-input {
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    background-color: transparent;
+    border-width: 0;
+}
+
+.no-outline:focus {
+    outline: none;
+}
+
+.edit[data-title]:hover::after{
+    background-color: #0051ff;
+    content: attr(data-title);
+    position: absolute;
+    top: -100%;
+    right: 100%;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 50px;
+
+}
+.delete[data-title]:hover::after{
+    background-color: red;
+    content: attr(data-title);
+    position: absolute;
+    top: -100%;
+    right: 100%;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 50px;
+}
+.save[data-title]:hover::after{
+    background-color: green;
+    content: attr(data-title);
+    position: absolute;
+    top: -100%;
+    right: 100%;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 50px;
+}
+.form-control{
+    padding: 5px;
+}

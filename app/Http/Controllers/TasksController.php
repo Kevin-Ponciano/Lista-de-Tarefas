@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 class TasksController extends Controller
 {
     public function index()
     {
-        return view('index');
+        $tasks = Task::all();
+        return view('index',['tasks' => $tasks]);
     }
 
     public function create()
@@ -19,13 +21,10 @@ class TasksController extends Controller
     public function store(Request $request)
     {
 
-        $request = $request->all();
-        debug($request);
-        $task = Task::create($request);
+        $data = $request->all();
+        $task = Task::create($data);
 
-        $task = Task::all();
-//        return response()->json($task);
-        return route('index',['task' => $task]);
+        return redirect('/')->with('status', 'Tarefa Criada com sucesso');
     }
 
 
@@ -39,10 +38,18 @@ class TasksController extends Controller
 
     public function update(Request $request, Task $task)
     {
+        $data = $request->all();
+        debug($data);
+        $task->update($data);
+        debug($task);
+
+        return redirect('/')->with('status', 'Tarefa Atualizada com Sucesso');
     }
 
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        debug('deletado');
+        $data = Task::find($id)->delete();
+
+        session()->flash('status', 'Tarefa Apagada com Sucesso');
     }
 }
