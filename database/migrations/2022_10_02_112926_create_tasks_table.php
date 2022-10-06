@@ -10,9 +10,9 @@ return new class extends Migration {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name',255);
-            $table->float('cost')->nullable();
-            $table->date('deadline')->nullable();
-            $table->integer('order')->nullable();
+            $table->float('cost');
+            $table->date('deadline');
+            $table->integer('order')->unique();
             $table->timestamps();
         });
     }
