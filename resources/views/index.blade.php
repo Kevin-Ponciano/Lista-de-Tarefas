@@ -35,8 +35,8 @@
         <table id="table" class="table table-light mb-0 px-4">
             <thead>
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nome</th>
+                <th scope="col">Identificador da Tarefa</th>
+                <th scope="col">Nome da Tarefa</th>
                 <th scope="col">Custo (R$)</th>
                 <th scope="col">Data Limite</th>
                 <th scope="col"></th>
@@ -55,22 +55,22 @@
                 </div>
             @endif
             @foreach($tasks as $task)
-                <tr @if($task->cost >= 1000) class="table-danger" @endif>
-                    <form action="/update/{{$task->id}}" method='post'>
+                <tr @if($task->custo >= 1000) class="table-danger" @endif>
+                    <form action="/update/{{$task->identificador_da_tarefa}}" method='post'>
                         {!! csrf_field() !!}
-                        <th scope="row">{{$task->id}}</th>
+                        <th scope="row">{{$task->identificador_da_tarefa}}</th>
                         <td>
 
-                            <input name="name" type="text" class="no-outline no-input"
-                                   value="{{$task->name}}" required readonly>
+                            <input name="nome_da_tarefa" type="text" class="no-outline no-input"
+                                   value="{{$task->nome_da_tarefa}}" required readonly>
                         </td>
                         <td>
-                            <input name="cost" type="text" class="no-outline no-input"
-                                   value="{{$task->cost}}" required readonly>
+                            <input name="custo" type="text" class="no-outline no-input"
+                                   value="{{$task->custo}}" required readonly>
                         </td>
                         <td>
-                            <input name="deadline" type="date" class="no-outline no-input"
-                                   value="{{$task->deadline}}" required readonly>
+                            <input name="data_limite" type="date" class="no-outline no-input"
+                                   value="{{$task->data_limite}}" required readonly>
                         </td>
 
                         <td class="table-light">
@@ -118,13 +118,13 @@
                     {!! csrf_field() !!}
                     <th scope="row"></th>
                     <td>
-                        <input name="name" type="text" class="no-outline form-control" required>
+                        <input name="nome_da_tarefa" type="text" class="no-outline form-control" required>
                     </td>
                     <td>
-                        <input name="cost" type="text" class="no-outline form-control" required>
+                        <input name="custo" type="text" class="no-outline form-control" required>
                     </td>
                     <td>
-                        <input name="deadline" type="date" class="no-outline form-control" required>
+                        <input name="data_limite" type="date" class="no-outline form-control" required>
                     </td>
 
                     <td>

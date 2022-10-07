@@ -9,27 +9,27 @@ class TarefasController extends Controller
 {
     public function index()
     {
-        $tarefas = Tarefa::all()->sortBy('order');
+        $tasks = Tarefa::all()->sortBy('ordem_de_apresentacao');
 
 
-        return view('index', ['tasks' => $tarefas]);
+        return view('index', ['tasks' => $tasks]);
     }
 
     public function store(Request $request)
     {
         $data = $request->all();
 
-        $validate_name = Tarefa::where([['name',$data['name']]])->get();
-        $validate_name2 = Tarefa::where([['name','']])->get();
+        $validate_name = Tarefa::where([['nome_da_tarefa',$data['nome_da_tarefa']]])->get();
+        $validate_name2 = Tarefa::where([['nome_da_tarefa','']])->get();
         if ($validate_name==$validate_name2){
-            $data['cost'] = $this->regex_number($data['cost']);
-            $last_order_number = Tarefa::orderByDesc('order')->first()['order'];
+            $data['custo'] = $this->regex_number($data['ordem_de_apresentacao']);
+            $last_order_number = Tarefa::orderByDesc('ordem_de_apresentacao')->first()['ordem_de_apresentacao'];
 
 
             if (Tarefa::first() == null) {
-                $data += ['order' => 0];
+                $data += ['ordem_de_apresentacao' => 0];
             } else {
-                $data += ['order' => $last_order_number + 1];
+                $data += ['ordem_de_apresentacao' => $last_order_number + 1];
             }
 
 
@@ -37,7 +37,7 @@ class TarefasController extends Controller
 
             return redirect('/')->with('success', 'Tarefa Criada com sucesso');
         }else{
-            return redirect('/')->with('task', 'Tarefa '.$data['name'].' Ja Existe');
+            return redirect('/')->with('task', 'Tarefa '.$data['nome_da_tarefa'].' Ja Existe');
         }
 
     }
@@ -45,22 +45,22 @@ class TarefasController extends Controller
     public function update(Request $request, Tarefa $task)
     {
         $data = $request->all();
-        $validate_name = Tarefa::where([['name',$data['name']]])->get();
-        $validate_name2 = Tarefa::where([['name','']])->get();
+        $validate_name = Tarefa::where([['nome_da_tarefa',$data['nome_da_tarefa']]])->get();
+        $validate_name2 = Tarefa::where([['nome_da_tarefa','']])->get();
 
         if($validate_name==$validate_name2){
-            $data['cost'] = $this->regex_number($data['cost']);
+            $data['custo'] = $this->regex_number($data['custo']);
 
             $task->update($data);
 
             return redirect('/')->with('success', 'Tarefa Atualizada com Sucesso');
-        }elseif ($validate_name[0]['id']==$task['id']){
-            $data['cost'] = $this->regex_number($data['cost']);
+        }elseif ($validate_name[0]['identificador_da_tarefa']==$task['identificador_da_tarefa']){
+            $data['custo'] = $this->regex_number($data['custo']);
 
             $task->update($data);
             return redirect('/')->with('success', 'Tarefa Atualizada com Sucesso');
         }else{
-            return redirect('/')->with('task', 'Tarefa '.$data['name'].' Ja Existe');
+            return redirect('/')->with('task', 'Tarefa '.$data['nome_da_tarefa'].' Ja Existe');
         }
 
 
@@ -73,7 +73,7 @@ class TarefasController extends Controller
         foreach ($maps as $map){
             if($map['id']!=null){
                 $task = Tarefa::find($map['id']);
-                $task->order = $map['order'];
+                $task->ordem_de_apresentacao = $map['ordem_de_apresentacao'];
                 $task->update();
             }
         }
