@@ -60,7 +60,7 @@ $(function  () {
                     id: id, order: index
                 }
             });
-            axios.post('http://127.0.0.1:8000/update_order',new_ordination).then()
+            axios.post(rootUrl + '/update_order',new_ordination).then()
         },
     });
 });
