@@ -10,12 +10,10 @@ return new class extends Migration {
         Schema::create('tarefas', function (Blueprint $table) {
             $table->id();
 
-            $table->id('identificador_da_tarefa');
             $table->string('nome_da_tarefa',255);
             $table->float('custo');
             $table->date('data_limite');
             $table->integer('ordem_de_apresentacao')->unique();
-            $table->timestamps();
 
             $table->timestamps();
         });

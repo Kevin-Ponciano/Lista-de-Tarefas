@@ -32,8 +32,8 @@
 </div>
 <div class="center">
     <div class="table-responsive border border-2 border-light rounded-3 shadow-lg">
-        <table id="table" class="table table-light mb-0 px-4">
-            <thead>
+        <table id="table" class="table table-light  mb-0 px-4">
+            <thead class="table-dark">
             <tr>
                 <th scope="col">Identificador da Tarefa</th>
                 <th scope="col">Nome da Tarefa</th>
@@ -49,16 +49,16 @@
                     {{ session('success') }}
                 </div>
             @endif
-            @if (session('task'))
+            @if (session('error'))
                 <div class="alert alert-danger align-content-center d-flex align-items-center justify-content-center">
-                    {{ session('task') }}
+                    {{ session('error') }}
                 </div>
             @endif
             @foreach($tasks as $task)
                 <tr @if($task->custo >= 1000) class="table-danger" @endif>
-                    <form action="/update/{{$task->identificador_da_tarefa}}" method='post'>
+                    <form action="/update/{{$task->id}}" method='post'>
                         {!! csrf_field() !!}
-                        <th scope="row">{{$task->identificador_da_tarefa}}</th>
+                        <th scope="row">{{$task->id}}</th>
                         <td>
 
                             <input name="nome_da_tarefa" type="text" class="no-outline no-input"
@@ -166,7 +166,7 @@
                     <b>Confirmação de Exclusão</b>
                 </div>
                 <div class="modal-body">
-                    <p>Deseja excluir a tarefa <b id="task_name_delete"></b>?</p>
+                    <p>Deseja excluir a tarefa <b id="task_name_for_delete"></b>?</p>
                 </div>
                 <div class="modal-footer py-1">
                     <button id="delete-confirm" type="button" class="btn btn-danger">Excluir</button>
@@ -186,8 +186,6 @@
     const rootUrl = {!! json_encode(url('/')) !!}
 </script>
 <script src="{{asset('js/script.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"
-</script>
 
 </body>
 </html>

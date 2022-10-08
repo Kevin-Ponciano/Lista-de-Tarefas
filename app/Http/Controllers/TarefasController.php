@@ -20,15 +20,15 @@ class TarefasController extends Controller
         $data = $request->all();
 
         $validate_name = Tarefa::where([['nome_da_tarefa',$data['nome_da_tarefa']]])->get();
-        $validate_name2 = Tarefa::where([['nome_da_tarefa','']])->get();
-        if ($validate_name==$validate_name2){
-            $data['custo'] = $this->regex_number($data['ordem_de_apresentacao']);
-            $last_order_number = Tarefa::orderByDesc('ordem_de_apresentacao')->first()['ordem_de_apresentacao'];
+        $validate_name_null = Tarefa::where([['nome_da_tarefa','']])->get();
 
+        if ($validate_name==$validate_name_null){
+            $data['custo'] = $this->regex_number($data['custo']);
 
             if (Tarefa::first() == null) {
                 $data += ['ordem_de_apresentacao' => 0];
             } else {
+                $last_order_number = Tarefa::orderByDesc('ordem_de_apresentacao')->first()['ordem_de_apresentacao'];
                 $data += ['ordem_de_apresentacao' => $last_order_number + 1];
             }
 
@@ -37,7 +37,7 @@ class TarefasController extends Controller
 
             return redirect('/')->with('success', 'Tarefa Criada com sucesso');
         }else{
-            return redirect('/')->with('task', 'Tarefa '.$data['nome_da_tarefa'].' Ja Existe');
+            return redirect('/')->with('error', 'Tarefa '.$data['nome_da_tarefa'].' Ja Existe');
         }
 
     }
@@ -45,22 +45,24 @@ class TarefasController extends Controller
     public function update(Request $request, Tarefa $task)
     {
         $data = $request->all();
-        $validate_name = Tarefa::where([['nome_da_tarefa',$data['nome_da_tarefa']]])->get();
-        $validate_name2 = Tarefa::where([['nome_da_tarefa','']])->get();
 
-        if($validate_name==$validate_name2){
+        $validate_name = Tarefa::where([['nome_da_tarefa',$data['nome_da_tarefa']]])->get();
+        $validate_name_null = Tarefa::where([['nome_da_tarefa','']])->get();
+
+        if($validate_name==$validate_name_null){
             $data['custo'] = $this->regex_number($data['custo']);
 
             $task->update($data);
 
             return redirect('/')->with('success', 'Tarefa Atualizada com Sucesso');
-        }elseif ($validate_name[0]['identificador_da_tarefa']==$task['identificador_da_tarefa']){
+        }elseif ($validate_name[0]['id']==$task['id']){
             $data['custo'] = $this->regex_number($data['custo']);
 
             $task->update($data);
+
             return redirect('/')->with('success', 'Tarefa Atualizada com Sucesso');
         }else{
-            return redirect('/')->with('task', 'Tarefa '.$data['nome_da_tarefa'].' Ja Existe');
+            return redirect('/')->with('error', 'Tarefa '.$data['nome_da_tarefa'].' Ja Existe');
         }
 
 
@@ -68,12 +70,19 @@ class TarefasController extends Controller
 
     public function update_order(Request $request, Tarefa $task)
     {
-        $maps = $request->all();
-//
-        foreach ($maps as $map){
-            if($map['id']!=null){
-                $task = Tarefa::find($map['id']);
-                $task->ordem_de_apresentacao = $map['ordem_de_apresentacao'];
+        $new_ordinances = $request->all();
+
+        // Altera o campo "ordem de apresentacao" com números aleatórios
+        // para evitar que um número se repita ao alterar a ordem
+        foreach (Tarefa::all() as $task){
+            $task['ordem_de_apresentacao'] = rand(1,10)*rand(-100,-1);
+            $task->update();
+        }
+
+        foreach ($new_ordinances as $new_ordination){
+            if($new_ordination['id']!=null){
+                $task = Tarefa::find($new_ordination['id']);
+                $task->ordem_de_apresentacao = $new_ordination['order'];
                 $task->update();
             }
         }
@@ -89,6 +98,8 @@ class TarefasController extends Controller
 
     public function regex_number($number)
     {
+        // aplicação de regex para evitar que o usuário envie ao banco letras
+        // e virgula como separador de decimal no campo "Custo"
         $new_number = preg_replace('/[^0-9.,]/i', '', $number);
         $new_number = preg_replace('/,/i', '.', $new_number);
 
