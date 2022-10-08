@@ -1,6 +1,6 @@
 # Lista-de-Tarefas
 
-Para realização do projeto proposto foi utilizado a lingaguem PHP e seu Framework **[Laravel](https://laravel.com/)**<br>
+Para realização do projeto proposto foi utilizado a linguagem PHP e seu Framework **[Laravel](https://laravel.com/)**<br>
 
 Mantive nesta Branch somente os arquivos que trabalhei<br>
 
